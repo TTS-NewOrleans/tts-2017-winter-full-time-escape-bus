@@ -18,10 +18,25 @@
 
   <div class="field form-group">
     <%= f.label :city %>
-    <%= f.text_field :city, class: 'form-control' %>
+    <%= f.collection_select :city,
+                            Location::MARTA_CITIES,
+                            :to_s,
+                            :to_s,
+                            {},
+                            {class: 'form-control'} %>
   </div>
 
-  <div class="actions form-group">
+  <div class="field form-group text-center">
+    <%= f.label "How close is \"close\"?" %><br>
+    <%= f.radio_button :distance, '1/4 Mile'%>
+    <%= label :distance_quarter_mile, '1/4 Mile' %>
+    <%= f.radio_button :distance, '1/2 Mile', checked: true %>
+    <%= label :distance_half_mile, '1/2 Mile' %>
+    <%= f.radio_button :distance, '1 Mile' %>
+    <%= label :distance_one_mile, '1 Mile' %>
+  </div>
+
+  <div class="actions form-group text-center">
     <%= f.submit 'Find Buses', class: 'btn btn-sm btn-success' %>
   </div>
 <% end %>

@@ -19,7 +19,11 @@ class LocationsController < ApplicationController
 
     # Only keep the buses that are "nearby"
     @buses.select! do |bus|
-      is_nearby?(@location.latitude, @location.longitude, bus["LATITUDE"], bus["LONGITUDE"])
+      is_nearby?(@location.latitude, @location.longitude, bus["LATITUDE"], bus["LONGITUDE"], @location.distance)
+    end
+
+    if @buses.empty?
+      redirect_to edit_location_url(@location), notice: "Sorry, there were no buses nearby. Maybe you should change your location."
     end
   end
 
@@ -39,7 +43,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        format.html { redirect_to @location }
         format.json { render :show, status: :created, location: @location }
       else
         format.html { render :new }
@@ -53,7 +57,7 @@ class LocationsController < ApplicationController
   def update
     respond_to do |format|
       if @location.update(location_params)
-        format.html { redirect_to @location, notice: 'Location was successfully updated.' }
+        format.html { redirect_to @location }
         format.json { render :show, status: :ok, location: @location }
       else
         format.html { render :edit }
@@ -80,6 +84,6 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-      params.require(:location).permit(:street_address, :city, :latitude, :longitude)
+      params.require(:location).permit(:street_address, :city, :latitude, :longitude, :distance)
     end
 end
