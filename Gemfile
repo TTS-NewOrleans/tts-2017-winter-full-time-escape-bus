@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'geocoder'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'figaro'
 
 
 group :development, :test do
